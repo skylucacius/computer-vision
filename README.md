@@ -8,3 +8,4 @@ Instalar todas as depedências do projeto por meio de um "pip install -r require
 Está sendo desenvolvida uma aplicação para aprendizado de visão computacional com base no tutorial sobre: 
 > Hand Tracking: identificação e rastreamento de mãos;
 > Pose Tracking: identificação e rastreamento de movimentos corporais (posturas). É necessário ter um vídeo de nome "1.mp4" que contém uma pessoa realizando movimentos. Esse vídeo deve estar numa pasta chamada "PoseVideos" a ser criada no mesmo diretório do "PoseModule.py". Em seguida, basta rodá-lo tendo todas as dependências instaladas.
+> Face Detection: necessário uma pasta "Vídeos" com vídeos iniciando em 1.mp4, analogamente ao explicado acima.
