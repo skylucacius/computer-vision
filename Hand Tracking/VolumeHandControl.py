@@ -29,11 +29,10 @@ volume = cast(interface, POINTER(IAudioEndpointVolume))
 # volume.GetMute()
 # volume.GetMasterVolumeLevel()
 volRange = volume.GetVolumeRange()
-# volume.SetMasterVolumeLevel(-20.0, None)
-print(volRange)
+# print(volRange)
 minVol = volRange[0]
 maxVol = volRange[1]
-
+print(minVol, maxVol)
 
 
 while True:
@@ -42,7 +41,7 @@ while True:
     lmList = detector.findPosition(img, draw=False)
 
     if lmList:
-        print(lmList[4],lmList[8])
+        # print(lmList[4],lmList[8])
         x1, y1 = lmList[4][1],lmList[4][2]
         x2, y2 = lmList[8][1],lmList[8][2]
         cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
@@ -55,18 +54,23 @@ while True:
         length = math.hypot(x2 - x1, y2 - y1)
         # print(length)
 
-        # Hand range 35 - 260
-        # Vol range 
+        # Usaremos a lib pycaw para alterar o volume baseado em length (distância entre a ponta dos dedos)
+        # Hand range 40 - 140 << valores obtidos em tempo de execução para a distância entre os dedos
+        # Vol range -65 - 0 << valores obtidos para o volume. Assim, espera-se:
+        # Mínimo(-65): dedos juntos. Máximo (0): dedos afastados ao máximo
+        vol = np.interp(length, [40,140], [minVol, maxVol])
+        volBar = np.interp(length, [40,140], [400, 150])
+        volPercentage = np.interp(length, [40,140], [0, 100])
+        # print(vol)
+        volume.SetMasterVolumeLevel(vol, None)
 
         if length < 50:
             cv2.circle(img, (cx,cy), 10, (0,255,0), cv2.FILLED)
 
-        # Usaremos a lib pycaw para alterar o volume baseado em length (distância entre a ponta dos dedos)
-
-
-
-
-
+        cv2.rectangle(img, (50,150), (85,400), (255,0,0), 3)
+        print(int(length))
+        cv2.rectangle(img, (50,int(volBar)), (85,400), (255,0,0), cv2.FILLED)
+        cv2.putText(img,f'{int(volPercentage)}', (40,450), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,0), 3)
 
     cTime = time.time()
     fps = 1 / (cTime - pTime)
