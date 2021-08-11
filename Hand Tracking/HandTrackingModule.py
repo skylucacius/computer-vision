@@ -43,7 +43,7 @@ class handDetector():
         fingers = []
 
         # thumb
-        if self.lmList[3][1] < self.lmList[4][1]:
+        if self.lmList[3][1] > self.lmList[4][1]:
             fingers.append(1)
         else:
             fingers.append(0)
@@ -55,6 +55,7 @@ class handDetector():
                 fingers.append(1)
             else:
                 fingers.append(0)
+        return fingers
 
 def main():
     pTime = 0; cTime = 0
